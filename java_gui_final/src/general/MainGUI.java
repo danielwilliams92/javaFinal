@@ -11,6 +11,8 @@ import static java.awt.image.ImageObserver.WIDTH;
 import javax.swing.border.TitledBorder;
 import hr.User;
 import java.util.Arrays;
+import manufacturer.Manufacturer;
+import product.Product;
 
 
 
@@ -801,19 +803,86 @@ public class MainGUI extends JFrame
         @Override
         public void actionPerformed(ActionEvent event)
         {
-            //Check if user is ready to submit employee details
-            int response = JOptionPane.showConfirmDialog(null, 
-                    "Are you sure you want to submit this form", 
-                    "Create", JOptionPane.YES_NO_OPTION);
             
-            if (response == JOptionPane.YES_OPTION) 
+            keepGoing = true;
+            checkProductInformation();//checks for input errors
+            checkManufactureInformation();//checks for input errors
+            if(keepGoing == true)
             {
-              JOptionPane.showMessageDialog(null, "Form Submitted", 
-                      "Confirmation", WIDTH);
-              
+                //Check if user is ready to submit employee details
+                int response = JOptionPane.showConfirmDialog(null, 
+                        "Are you sure you want to submit this form", 
+                        "Create", JOptionPane.YES_NO_OPTION);
+
+                if (response == JOptionPane.YES_OPTION) 
+                {
+                  JOptionPane.showMessageDialog(null, "Form Submitted", 
+                          "Confirmation", WIDTH);
+                  //creates manufacture
+                  Manufacturer test = new Manufacturer(manufacturerNameText.getText(),manufacturerAddressText.getText(),manufacturerPhoneText.getText(),Integer.parseInt(manufacturerIDText.getText())); 
+                  //creates product
+                  Product product = new Product(productDescriptionText.getText(),productNameText.getText(),Integer.parseInt(productNumberText.getText()),Double.parseDouble(productCostText.getText()),test);
+
+                  //add to database
+                  System.out.println(test);
+                  System.out.println(product);
+                  
+                }  
             }
-           
         }
+    }
+    
+    public void checkEmptyString(String example)
+    {
+        if(example.replaceAll("\\s","").isEmpty())
+        {
+            keepGoing = false;
+            System.out.println("All fields required");
+        }
+    }
+    
+    public void checkProductInformation()
+    {   
+        checkEmptyString(productNameText.getText());
+        checkEmptyString(productDescriptionText.getText());
+        checkEmptyString(productCostText.getText());
+        checkEmptyString(productNumberText.getText());
+        
+        try
+            {
+             checkDouble(Double.parseDouble(productCostText.getText()));               
+            }
+            catch(Exception e)
+            {
+               checkDouble("Product Cost",productCostText.getText());         
+            }
+        
+        try
+            {
+             checkInt(Integer.parseInt(productNumberText.getText()));             
+            }
+            catch(Exception e)
+            {
+               checkInt("Product Number",productNumberText.getText());         
+            }
+    }
+    
+ 
+    public void checkManufactureInformation()
+    {
+        checkEmptyString(manufacturerNameText.getText());
+        checkEmptyString(manufacturerAddressText.getText());
+        checkEmptyString(manufacturerPhoneText.getText());
+        checkEmptyString(manufacturerIDText.getText());
+        
+        try
+            {
+             checkInt(Integer.parseInt(manufacturerIDText.getText()));             
+            }
+            catch(Exception e)
+            {
+               checkInt("Manufacture ID",manufacturerIDText.getText());         
+            }
     }
     
     //private inner class for event handling
@@ -894,17 +963,15 @@ public class MainGUI extends JFrame
                   
                         clearTextBoxes();
                     }
-                     else
+                    else
                     {
                         clearOptionPane();
                         if(response2 == JOptionPane.YES_OPTION)
                         {
                             clearTextBoxes();
                         }
-                        else
-                        {
-                            //nothing
-                        }
+                        
+                        
                     }
                 }
                 
@@ -1043,6 +1110,14 @@ public class MainGUI extends JFrame
         {
             keepGoing = false;
         }
+          try
+            {
+                checkDouble(Double.parseDouble(commissionRateText.getText()));               
+            }
+            catch(Exception e)
+            {
+               checkDouble("Commission Rate",commissionRateText.getText());         
+            }
     }
     
     private void checkSalaryEmployeeInformation()
@@ -1053,6 +1128,14 @@ public class MainGUI extends JFrame
         {
             keepGoing = false;
         }
+          try
+            {
+                checkDouble(Double.parseDouble(baseSalaryText.getText()));               
+            }
+            catch(Exception e)
+            {
+               checkDouble("Salary",baseSalaryText.getText());         
+            }
     }
     
     private void checkSalaryPlusCommissionEmployeeInformation()
@@ -1067,7 +1150,27 @@ public class MainGUI extends JFrame
         {
             keepGoing = false;
         }
+        
+        try
+            {
+                checkDouble(Double.parseDouble(baseSalaryText.getText()));               
+            }
+            catch(Exception e)
+            {
+               checkDouble("Salary",baseSalaryText.getText());         
+            }
+        
+        try
+            {
+                checkDouble(Double.parseDouble(commissionRateText.getText()));               
+            }
+            catch(Exception e)
+            {
+               checkDouble("Commission Rate",commissionRateText.getText());         
+            }
     }
+    
+    
     
     private void checkHourlyEmployeeInformation()
     {
@@ -1077,26 +1180,36 @@ public class MainGUI extends JFrame
         {
             keepGoing = false;
         }
+            try
+            {
+                checkDouble(Double.parseDouble(hourlyRateText.getText()));               
+            }
+            catch(Exception e)
+            {
+               checkDouble("Hourly Rate",hourlyRateText.getText());         
+            }
     }
+    
+    
+    
     // checks to see if employee position information isn't empty when white space removed
     private void checkEmployeePositionInformation()
     {
-        if(positionText.getText().replaceAll("\\s","").isEmpty())
+      
+        checkEmptyString(positionText.getText());
+        checkEmptyString(statusText.getText());
+        checkEmptyString(departmentText.getText());
+        checkEmptyString(idNumberText.getText());
+        
+            try
             {
-                keepGoing = false;
+                checkInt(Integer.parseInt(idNumberText.getText()));               
             }
-        if(statusText.getText().replaceAll("\\s","").isEmpty())
+            catch(Exception e)
             {
-                keepGoing = false;
+               checkInt("ID Number",idNumberText.getText());         
             }
-        if(departmentText.getText().replaceAll("\\s","").isEmpty())
-            {
-                keepGoing = false;
-            }
-        if(idNumberText.getText().replaceAll("\\s","").isEmpty())
-            {
-                keepGoing = false;
-            }     
+        
     }
     
     /*
@@ -1105,44 +1218,77 @@ public class MainGUI extends JFrame
     */
     private void checkEmployeeInformation()
     {
-            if(firstNameText.getText().replaceAll("\\s","").isEmpty())
+            
+        checkEmptyString(firstNameText.getText());  
+        checkEmptyString(lastNameText.getText());
+        checkEmptyString(genderText.getText());
+        checkEmptyString(addressText.getText());
+        checkEmptyString(phoneNumberText.getText());
+        checkEmptyString(sinText.getText());
+        checkEmptyString(yearText.getText());
+        checkEmptyString(monthText.getText());
+        checkEmptyString(dayText.getText());
+        
+            //try to parse text into int, catch exception
+            try
             {
-                keepGoing = false;
+                checkInt(Integer.parseInt(sinText.getText()));               
             }
-            if(lastNameText.getText().replaceAll("\\s","").isEmpty())
+            catch(Exception e)
             {
-                keepGoing = false;
+               checkInt("sin",sinText.getText());         
             }
-            if(genderText.getText().replaceAll("\\s","").isEmpty())
+            
+            try
             {
-                keepGoing = false;
+                checkInt(Integer.parseInt(dayText.getText()));               
             }
-            if(addressText.getText().replaceAll("\\s","").isEmpty())
+            catch(Exception e)
             {
-                keepGoing = false;
+               checkInt("day",dayText.getText());         
             }
-            if(phoneNumberText.getText().replaceAll("\\s","").isEmpty())
+             
+            try
             {
-                keepGoing = false;
+                checkInt(Integer.parseInt(monthText.getText()));               
             }
-            if(sinText.getText().replaceAll("\\s","").isEmpty())
+            catch(Exception e)
             {
-                keepGoing = false;
+               checkInt("month",monthText.getText());         
             }
-            if(yearText.getText().replaceAll("\\s","").isEmpty())
+              
+            try
             {
-                keepGoing = false;
+               checkInt(Integer.parseInt(yearText.getText()));               
             }
-            if(monthText.getText().replaceAll("\\s","").isEmpty())
+            catch(Exception e)
             {
-                keepGoing = false;
-            }
-            if(dayText.getText().replaceAll("\\s","").isEmpty())
-            {
-                keepGoing = false;
-            }
+               checkInt("year",yearText.getText());         
+            }        
     }
     
+    //empty method
+    public void checkInt(int example)
+    {
+        //Success
+    }
+    //if user puts a String, they will be told to enter a int
+    public void checkInt(String textbox,String example)
+    {
+        keepGoing = false;
+        System.out.println("Please only enter a numberic value for "+textbox+" You entered "+example);
+    }
+    //empty method
+    public void checkDouble(double example)
+    {
+        //Success
+    }
+    //if user enters a string, they will be told to enter a double
+    public void checkDouble(String textbox,String example)
+    {
+        keepGoing = false;
+        System.out.println("Please only enter a numberic value for "+textbox+" You entered "+example);
+    }
     
     //main
     public static void main(String[] args)
