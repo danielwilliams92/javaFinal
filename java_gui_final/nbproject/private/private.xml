@@ -4,6 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Dan/Documents/NetBeansProjects/java_gui_final/src/general/MainGUI.java</file>
+            <file>file:/C:/Users/Dan/Documents/NetBeansProjects/java_gui_final/src/hr/User.java</file>
+            <file>file:/C:/Users/Dan/Documents/NetBeansProjects/java_gui_final/src/product/Product.java</file>
+            <file>file:/C:/Users/Dan/Documents/NetBeansProjects/java_gui_final/src/sales/Order.java</file>
+            <file>file:/C:/Users/Dan/Documents/NetBeansProjects/java_gui_final/src/manufacturer/Manufacturer.java</file>
+            <file>file:/C:/Users/Dan/Documents/NetBeansProjects/java_gui_final/src/customers/Customer.java</file>
+            <file>file:/C:/Users/Dan/Documents/NetBeansProjects/java_gui_final/src/hr/SalaryEmployee.java</file>
+            <file>file:/C:/Users/Dan/Documents/NetBeansProjects/java_gui_final/src/hr/BasePlusCommissionEmployee.java</file>
         </group>
     </open-files>
 </project-private>
